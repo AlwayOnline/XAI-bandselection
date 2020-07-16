@@ -176,7 +176,7 @@ def compile_saliency_function (O00O0O0OO0OOOO0OO ,activation_layer ='C4'):#line:
     O0OOOOOOOOOOO00O0 =dict ([(OO0O0O00OO00O0OOO .name ,OO0O0O00OO00O0OOO )for OO0O0O00OO00O0OOO in O00O0O0OO0OOOO0OO .layers [0 :]])#line:176
     OOO00O0OO00O0O0O0 =O0OOOOOOOOOOO00O0 [activation_layer ].output #line:177
     OO0OO00OO0O000O00 =K .max (OOO00O0OO00O0O0O0 ,axis =2 )#line:178
-    OO0OO00OO0O000O00 ,O0O00000OO0O000O0 =K .tf .nn .top_k (OO0OO00OO0O000O00 ,k =30 )#line:179
+    OO0OO00OO0O000O00 ,O0O00000OO0O000O0 =K .tf .nn .top_k (OO0OO00OO0O000O00 ,k = T )#line:179
     O0O0OOO0O0OO0O0OO =K .gradients (K .sum (OO0OO00OO0O000O00 ),O0000OO0OOOO00O0O )[0 ]#line:180
     return K .function ([O0000OO0OOOO00O0O ,K .learning_phase ()],[O0O0OOO0O0OO0O0OO ])#line:181
 def bandSelectionAverage (OO0OOO0OOO0O00O00 ,O0OOOO00OO000O0OO ,O000OOOO00OO00O00 ,OO000000O00OO0OOO ,O000O0O0OOOOOOOOO ,O00OOO00O000O0OO0 ,OOO0000O0O0OOOO0O ):#line:182
@@ -241,11 +241,29 @@ def alter_model (layer_name ='C4'):#line:235
     return OOO0OO00OO0OOOO0O ,OO0O00O00O00OO0O0 #line:241
 model =creatModelTest ()#line:242
 model .load_weights ('weights.best.hdf5')#line:243
-S ,Y ,T =get_all_result (m =9 ,name ='C3')#line:244
-L =[]#line:245
-for i in [5 ,10 ,15 ,20 ,25 ,30 ,35 ,40 ,45 ,50 ]:#line:246
-     #line:247
-    selectedtrainband ,selectedtestband ,selection ,selectedtrainlabel ,selectedtestlabel =bandSelectionAverage (train_data ,test_data ,train_label ,test_label ,Y,i,9 )#line:248
-    acc =skGridSearchCv (selectedtrainband ,selectedtestband ,selectedtrainlabel ,selectedtestlabel ,3 )#line:249
-    L .append (acc )#line:250
-print ("[5,10,15,20,25,30,35,40,45,50] accuracy:",L )#line:251
+######## Model loading, we can design a new CNN model for Pavia data
+
+
+
+
+
+
+C='C4'
+# C parameter can be C2,C3,C4
+T=40
+# T parameter can be 5-100 for C2, 5-50 for C3 and C4
+# T can be used in the "compile_saliency_function"
+i= 5
+# i is the number of the selected bands.
+
+S ,Y ,H =get_all_result (m = 9 ,name ='C3')#line:244
+
+# Y=GSM
+
+
+selectedtrainband ,selectedtestband ,selection ,selectedtrainlabel ,selectedtestlabel =bandSelectionAverage (train_data ,test_data ,train_label ,test_label ,Y,i,9 )#line:248
+#band selection
+acc =skGridSearchCv (selectedtrainband ,selectedtestband ,selectedtrainlabel ,selectedtestlabel ,3 )#line:249
+#SVM
+
+print ("accuracy:",acc )#line:251
