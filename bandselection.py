@@ -253,7 +253,7 @@ C='C4'
 T=40
 # T parameter can be 5-100 for C2, 5-50 for C3 and C4
 # T can be used in the "compile_saliency_function"
-i= 5
+n_bands= 5
 # i is the number of the selected bands.
 
 S ,Y ,H =get_all_result (m = 9 ,name ='C3')#line:244
@@ -261,7 +261,7 @@ S ,Y ,H =get_all_result (m = 9 ,name ='C3')#line:244
 # Y=GSM
 
 
-selectedtrainband ,selectedtestband ,selection ,selectedtrainlabel ,selectedtestlabel =bandSelectionAverage (train_data ,test_data ,train_label ,test_label ,Y,i,9 )#line:248
+selectedtrainband ,selectedtestband ,selection ,selectedtrainlabel ,selectedtestlabel =bandSelectionAverage (train_data ,test_data ,train_label ,test_label ,Y,n_bands,9 )#line:248
 #band selection
 acc =skGridSearchCv (selectedtrainband ,selectedtestband ,selectedtrainlabel ,selectedtestlabel ,3 )#line:249
 #SVM
